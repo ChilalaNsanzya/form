@@ -15,17 +15,33 @@ between them, and the footer tabs jump to the same frames.
 |---|-----------|----------------------|---------------|
 | 1 | Lifestyle | 2:3 poster rail      | Split a booking, membership debit order |
 | 2 | Shops     | 3-up store logo grid | Family grocery lists, AI grocery list, grocery budget wallet |
-| 3 | Homes     | 2-up property cards  | Rental deposit savings account, home loan, home insurance |
-| 4 | Travel    | 4-up mode tiles      | Travel insurance, smart toll auto-pay, traveller wallet |
+| 3 | Homes     | Buy/Rent/Sell, location-first | Per mode: home loan (buy), deposit account (rent), loan settlement (sell) |
+| 4 | Travel    | Journey planner, results after a route | Toll auto-pay, travel insurance; eSIM, mobile money and forex for arrivals |
 | 5 | Copper Pages | Search-first, tenders, 4-up category grid | Pay a supplier directly, pay on completion, insurance hub |
 
-Every screen shares the same vertical spine:
+Lifestyle, Shops and Copper Pages share a browse spine:
 
 1. Promo rail (circular campaign shortcuts)
 2. Featured hero — one item, large 16:9 image, gold CTA, **no carousel**
 3. Second tier — the horizontally scrolling row, treatment varies per category
 4. Zanaco card — copper block, used nowhere else in the app
 5. Icon list — the long tail, 40px icon thumbs
+
+Homes and Travel do not use that spine. They are input-first: the user arrives
+with an intent and a place, not a mood to browse, so there is nothing worth
+featuring until they have said where.
+
+**Homes** opens on Buy / Rent / Sell, then a typed location field. The segment
+switches the entire view below it — different filters, different results and a
+different Zanaco card per mode. Buy leads to loan pre-qualification, Rent to the
+rental deposit account, Sell to a valuation and settling an existing loan.
+
+**Travel** opens on From and To with a swap control. Before a route exists the
+screen shows recent journeys and an arrivals pack (eSIM, mobile money wallet,
+forex) for visitors landing in Zambia. Once both ends are set, results are drawn
+from route data — distance, tolls, driving time, and the operators and prices
+that actually serve that pair. An unserved pair gets an honest empty state, not
+another route's numbers.
 
 ## Design decisions
 
