@@ -1,0 +1,18 @@
+{
+  "$description": "PLACEHOLDER — these are values inferred from a screenshot, not the Zanaco library. Replace this file with the real export from Figma (Tokens Studio → GitHub sync, or Figma variables → JSON) and run: node scripts/build-tokens.mjs",
+  "color": {
+    "brand":  { "red": { "$value": "#D0212B", "$type": "color", "$description": "Footer navigation bar only" } },
+    "accent": {
+      "gold":   { "500": { "$value": "#DDA04C", "$type": "color" },
+                  "600": { "$value": "#C98B3E", "$type": "color" } },
+      "copper": { "500": { "$value": "#A8672B", "$type": "color" },
+                  "700": { "$value": "#7F411A", "$type": "color" },
+                  "ink": { "$value": "#F8EFE5", "$type": "color" } }
+    },
+    "surface": { "background": { "$value": "#F2F0EE", "$type": "color" },
+                 "card":       { "$value": "#FFFFFF", "$type": "color" } },
+    "text":    { "primary":   { "$value": "#17181C", "$type": "color" },
+                 "secondary": { "$value": "#736D69", "$type": "color" } },
+    "border":  { "subtle": { "$value": "#E7E2DD", "$type": "color" } }
+  }
+}

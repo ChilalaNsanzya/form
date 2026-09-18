@@ -1,0 +1,8 @@
+{
+  "_comment": "Map the prototype's icon names to your exported Figma filenames. A file already named e.g. cart.svg needs no entry. Delete this comment key.",
+  "cart": "",
+  "ticket": "",
+  "home": "",
+  "plane": "",
+  "book": ""
+}

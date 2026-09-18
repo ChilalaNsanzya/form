@@ -1,0 +1,13 @@
+{
+  "--brand": "color.brand.red",
+  "--gold": "color.accent.gold.500",
+  "--gold-2": "color.accent.gold.600",
+  "--copper": "color.accent.copper.700",
+  "--copper-2": "color.accent.copper.500",
+  "--copper-ink": "color.accent.copper.ink",
+  "--app-bg": "color.surface.background",
+  "--app-card": "color.surface.card",
+  "--app-ink": "color.text.primary",
+  "--app-muted": "color.text.secondary",
+  "--app-line": "color.border.subtle"
+}
