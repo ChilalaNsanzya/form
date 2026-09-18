@@ -4,7 +4,14 @@ Design prototype and Figma handoff spec for the Explore section of the Zanaco
 super app: a five-category marketplace where each category journey terminates in
 a Zanaco banking product.
 
-Open `prototype/index.html` in a browser.
+Open `prototype/index.html` in a browser — it carries the working prototype and
+the design documentation, and reads on a phone as well as a desktop.
+`prototype/app.html` is the same screens with no device frame, for testing on a
+real handset.
+
+The app bar carries a back control on the left and the Zanaco mark on the right,
+which returns to the main banking app. The mark in this build is a placeholder —
+swap it for the real logo component.
 
 ## Structure
 
@@ -21,7 +28,9 @@ between them, and the footer tabs jump to the same frames.
 
 Lifestyle, Shops and Copper Pages share a browse spine:
 
-1. Promo rail (circular campaign shortcuts)
+1. Status rail — circular updates, pinned below the app bar. It scrolls
+   horizontally on its own and never moves with the page or triggers the
+   category swipe
 2. Featured hero — one item, large 16:9 image, gold CTA, **no carousel**
 3. Second tier — the horizontally scrolling row, treatment varies per category
 4. Zanaco card — copper block, used nowhere else in the app

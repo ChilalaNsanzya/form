@@ -64,7 +64,7 @@ body{background:#F2F0EE; padding:0}
   <div class="appbar">
     <button class="iconbtn" aria-label="Back" id="btn-back"></button>
     <h3>Explore</h3>
-    <button class="iconbtn" aria-label="Search" id="btn-search"></button>
+    <button class="logobtn" id="btn-home" aria-label="Back to the Zanaco app" title="Back to the Zanaco app">Z</button>
   </div>
   <div class="pager" id="pager"></div>
   <nav class="tabbar" id="tabbar" aria-label="Explore categories"></nav>
