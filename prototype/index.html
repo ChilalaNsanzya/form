@@ -87,7 +87,7 @@ h2{font-size:clamp(20px,3vw,26px); margin:0; font-weight:700; letter-spacing:-.0
 .app{
   --app-bg:#F2F0EE; --app-card:#FFFFFF; --app-ink:#17181C; --app-muted:#736D69;
   --app-line:#E7E2DD; --brand:#D0212B; --gold:#DDA04C; --gold-2:#C98B3E;
-  --bank:#16233A; --bank-ink:#F4F1EC;
+  --copper:#7F411A; --copper-2:#A8672B; --copper-ink:#F8EFE5;
   position:absolute; inset:10px; border-radius:33px; overflow:hidden;
   background:var(--app-bg); color:var(--app-ink); display:flex; flex-direction:column;
 }
@@ -174,12 +174,13 @@ h2{font-size:clamp(20px,3vw,26px); margin:0; font-weight:700; letter-spacing:-.0
 .hero p{margin:0 0 13px; font-size:12.5px; line-height:1.45; color:var(--app-muted)}
 .cta{
   width:100%; display:flex; align-items:center; justify-content:space-between;
-  background:linear-gradient(180deg,var(--gold),var(--gold-2)); color:#231604;
-  border:0; border-radius:12px; padding:12px 15px; font-family:inherit;
-  font-size:14px; font-weight:700; cursor:pointer;
+  background:var(--gold); color:#2B1A06;
+  border:0; border-radius:14px; padding:15px 16px; font-family:inherit;
+  font-size:15px; font-weight:700; letter-spacing:-.005em; cursor:pointer;
 }
 .cta:focus-visible{outline:2px solid var(--app-ink); outline-offset:2px}
-.cta.ghost{background:transparent; border:1.4px solid var(--gold-2); color:var(--gold-2)}
+.cta.ghost{background:transparent; border:1.5px solid var(--copper-2); color:var(--copper-2)}
+.cta.sm{padding:12px 13px; font-size:13.5px; border-radius:12px}
 
 /* tier-2 carousel */
 .carousel{display:flex; gap:12px; overflow-x:auto; padding:0 14px 4px; scroll-snap-type:x mandatory; scrollbar-width:none}
@@ -197,15 +198,17 @@ h2{font-size:clamp(20px,3vw,26px); margin:0; font-weight:700; letter-spacing:-.0
 
 /* tile grid */
 .tilegrid{display:grid; gap:10px; padding:0 14px}
-.tilegrid.c3{grid-template-columns:repeat(3,1fr)}
-.tilegrid.c4{grid-template-columns:repeat(4,1fr)}
+.tilegrid.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tilegrid.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.tilegrid.c4 .tile{padding:10px 5px}
+.tilegrid.c4 .tile b{font-size:10.5px}
 .tile{
   background:var(--app-card); border:1px solid var(--app-line); border-radius:14px;
   padding:11px 8px; text-align:center; display:flex; flex-direction:column;
   align-items:center; gap:7px; cursor:pointer; font-family:inherit;
 }
 .tile .glyph{width:34px; height:34px; border-radius:11px; display:grid; place-items:center; color:#fff}
-.tile b{font-size:11px; font-weight:700; line-height:1.2}
+.tile b{font-size:11px; font-weight:700; line-height:1.2; overflow-wrap:anywhere}
 .tile small{font-size:9.5px; color:var(--app-muted); line-height:1.2}
 
 /* segmented control */
@@ -219,32 +222,65 @@ h2{font-size:clamp(20px,3vw,26px); margin:0; font-weight:700; letter-spacing:-.0
 }
 .segment button[aria-pressed="true"]{background:#fff; color:var(--app-ink); box-shadow:0 1px 2px rgba(0,0,0,.12)}
 
-/* bank block */
-.bank{
-  margin:16px 14px 0; background:var(--bank); color:var(--bank-ink);
-  border-radius:16px; padding:14px; position:relative; overflow:hidden;
+/* Zanaco card — copper */
+.zcard{
+  margin:16px 14px 0; color:var(--copper-ink); border-radius:18px; padding:15px;
+  position:relative; overflow:hidden;
+  background:linear-gradient(152deg,#95511F 0%,var(--copper) 46%,#4E2710 100%);
 }
-.bank::after{
-  content:""; position:absolute; width:150px; height:150px; right:-52px; top:-62px;
-  border-radius:50%; background:radial-gradient(circle,rgba(221,160,76,.30),transparent 68%);
+.zcard::after{
+  content:""; position:absolute; width:190px; height:190px; right:-68px; top:-84px;
+  border-radius:50%; background:radial-gradient(circle,rgba(255,206,150,.26),transparent 66%);
 }
-.bank .tag{
+.zcard .tag{
   display:inline-flex; align-items:center; gap:5px; font-family:var(--font-mono);
-  font-size:9px; letter-spacing:.12em; text-transform:uppercase; font-weight:600;
-  color:var(--gold); border:1px solid rgba(221,160,76,.45); border-radius:999px; padding:3px 8px;
+  font-size:9px; letter-spacing:.13em; text-transform:uppercase; font-weight:600;
+  color:#F6D4AC; border:1px solid rgba(246,212,172,.5); border-radius:999px; padding:3px 9px;
+  position:relative;
 }
-.bank h5{margin:9px 0 3px; font-size:14.5px; font-weight:700}
-.bank p{margin:0 0 12px; font-size:11.5px; line-height:1.45; color:rgba(244,241,236,.72)}
-.bank-actions{display:flex; flex-direction:column; gap:7px; position:relative}
-.bank-act{
-  display:flex; align-items:center; gap:10px; background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.12); border-radius:11px; padding:10px 11px;
+.zcard h5{margin:10px 0 3px; font-size:15px; font-weight:700; position:relative}
+.zcard p{margin:0 0 12px; font-size:11.5px; line-height:1.45; color:rgba(248,239,229,.76); position:relative}
+.z-actions{display:flex; flex-direction:column; gap:7px; position:relative}
+.z-act{
+  display:flex; align-items:center; gap:10px; background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,235,215,.18); border-radius:12px; padding:10px 11px;
   cursor:pointer; text-align:left; font-family:inherit; color:inherit; width:100%;
 }
-.bank-act .dot{width:28px; height:28px; border-radius:9px; display:grid; place-items:center; background:rgba(221,160,76,.18); color:var(--gold); flex:none}
-.bank-act b{display:block; font-size:12.5px; font-weight:700}
-.bank-act small{display:block; font-size:10.5px; color:rgba(244,241,236,.66); line-height:1.3}
-.bank-act .chev{margin-left:auto; color:rgba(244,241,236,.55)}
+.z-act .dot{width:29px; height:29px; border-radius:9px; display:grid; place-items:center; background:rgba(255,214,170,.20); color:#FBDDB6; flex:none}
+.z-act b{display:block; font-size:12.5px; font-weight:700}
+.z-act small{display:block; font-size:10.5px; color:rgba(248,239,229,.70); line-height:1.3}
+.z-act .chev{margin-left:auto; color:rgba(248,239,229,.6)}
+
+/* tenders */
+.duo{display:flex; gap:9px; padding:0 14px 12px}
+.duo button{flex:1; justify-content:center; gap:7px}
+.tender-val{font-family:var(--font-mono); font-size:11px; font-weight:600; color:var(--copper-2); font-variant-numeric:tabular-nums}
+.closing{font-size:10px; font-weight:700; color:#B03A2E}
+
+/* shared list flow */
+.people{display:flex; padding:0 14px 12px}
+.people .who{
+  width:28px; height:28px; border-radius:50%; display:grid; place-items:center;
+  font-size:10.5px; font-weight:700; color:#fff; border:2px solid var(--app-bg); margin-right:-8px;
+}
+.people .add{background:transparent; color:var(--copper-2); border:1.5px dashed var(--copper-2)}
+.item{display:flex; align-items:center; gap:11px; padding:11px 12px; border-bottom:1px solid var(--app-line); width:100%; background:transparent; border-left:0; border-right:0; border-top:0; font-family:inherit; text-align:left; cursor:pointer; color:inherit}
+.item:last-child{border-bottom:0}
+.box{width:20px; height:20px; border-radius:6px; border:1.6px solid #C9C2BB; flex:none; display:grid; place-items:center; color:#fff}
+.box svg{opacity:0}
+.item[data-done="1"] .box svg{opacity:1}
+.item[data-done="1"] .box{background:var(--copper-2); border-color:var(--copper-2)}
+.item[data-done="1"] b{text-decoration:line-through; color:var(--app-muted)}
+.item b{display:block; font-size:13px; font-weight:600}
+.item small{display:block; font-size:10.5px; color:var(--app-muted)}
+.item .qty{margin-left:auto; font-family:var(--font-mono); font-size:11px; color:var(--app-muted)}
+.totalbar{display:flex; justify-content:space-between; align-items:center; margin:12px 14px 0; padding:12px 14px; background:var(--app-card); border-radius:13px}
+.totalbar b{font-size:15px; font-variant-numeric:tabular-nums}
+.totalbar small{font-size:10.5px; color:var(--app-muted); display:block}
+.flowstrip{display:flex; gap:22px; overflow-x:auto; padding-bottom:10px}
+.flowstrip>div{flex:none; width:390px; max-width:100%}
+.flowcap{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--page-muted); text-align:center; margin-top:10px}
+.phone.flow{height:700px}
 
 /* list rows */
 .list{margin:0 14px; background:var(--app-card); border-radius:14px; overflow:hidden}
@@ -275,7 +311,7 @@ h2{font-size:clamp(20px,3vw,26px); margin:0; font-weight:700; letter-spacing:-.0
 .navbtn{
   border:0; background:transparent; color:rgba(255,255,255,.72); cursor:pointer;
   display:flex; flex-direction:column; align-items:center; gap:3px; padding:2px 0;
-  font-family:inherit; font-size:10px; font-weight:600; position:relative;
+  font-family:inherit; font-size:9.5px; font-weight:600; position:relative; white-space:nowrap;
 }
 .navbtn[aria-current="page"]{color:#fff}
 .navbtn[aria-current="page"]::after{
@@ -375,9 +411,17 @@ ol.steps li strong{color:var(--page-ink)}
           <p><strong>Lifestyle</strong> uses 2:3 posters — the format cinema, events and tourism content already ships in. <strong>Shops</strong> uses a 3-up logo grid because retailers are recognised by mark, not photo. <strong>Homes</strong> uses 2-up cards with price as the loudest element. <strong>Travel</strong> uses mode tiles, because people arrive knowing whether they need a flight or a bus. <strong>Services</strong> leads with search, because a directory with eight taxonomies cannot be browsed.</p>
         </div>
         <div class="note">
-          <h3>Banking is a layer, not a tab</h3>
-          <p>Every screen carries one navy block. Navy appears nowhere else in the app, so "this is the bank talking" is learnable in a single session and never competes with the red chrome or the gold merchant CTAs.</p>
-          <p>Each block sits <strong>after</strong> the marketplace content it belongs to — you see the house before you see the home loan.</p>
+          <h3>The Zanaco card is copper</h3>
+          <p>One copper block per screen, appearing nowhere else in the app, so "this is Zanaco talking" is learnable in a single session. It is darker and deeper than the gold CTA, so the two warm tones separate by value rather than hue.</p>
+          <p>Each card sits <strong>after</strong> the marketplace content it belongs to — you see the house before you see the home loan, the shops before the grocery list.</p>
+        </div>
+        <div class="note">
+          <span class="verdict">Full-screen horizontal scroll — my read</span>
+          <h3>Keep it, but as an accelerator</h3>
+          <p>It is good at five pages and would be bad at seven. Two real problems to design around:</p>
+          <p><strong>Nested rails eat the gesture.</strong> A swipe that starts on the poster rail or the tile grid scrolls that row, not the page. That is correct behaviour, but it means the page-swipe silently fails depending on where the thumb lands. Fix it by keeping a generous swipeable margin — the hero, the Zanaco card and the list are all full-bleed and non-scrolling, so most of the screen still pages.</p>
+          <p><strong>Position memory.</strong> Each page must keep its own vertical scroll position when you swipe away and back, or returning to Shops from Homes dumps you at the top and the gesture feels lossy.</p>
+          <p>So: footer tap is the primary navigation and the thing you test with users; swipe is the accelerator for people who find it. Never make swipe the only way to reach anything.</p>
         </div>
         <div class="note">
           <h3>One change to your footer order</h3>
@@ -388,7 +432,13 @@ ol.steps li strong{color:var(--page-ink)}
   </section>
 
   <section class="block">
-    <div class="sec-head"><span class="sec-num">02</span><h2>Tokens</h2></div>
+    <div class="sec-head"><span class="sec-num">02</span><h2>Grocery lists</h2></div>
+    <p class="sec-sub">Lists are a Zanaco feature, not a shop. You can have several, each shared with a different set of people, and items can be added from any store in Explore. Reached from the Zanaco card on the Shops screen.</p>
+    <div class="flowstrip" id="flows"></div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Tokens</h2></div>
     <p class="sec-sub">Create these as Figma variables before drawing anything. Colour first, then type, then a 4pt spacing scale.</p>
     <div class="tablewrap">
       <table class="tok">
@@ -399,19 +449,19 @@ ol.steps li strong{color:var(--page-ink)}
   </section>
 
   <section class="block">
-    <div class="sec-head"><span class="sec-num">03</span><h2>Screen anatomy</h2></div>
+    <div class="sec-head"><span class="sec-num">04</span><h2>Screen anatomy</h2></div>
     <p class="sec-sub">Vertical stack order for each category page, top to bottom. Same spine everywhere — hero, second tier, bank layer, list — with a different second-tier component per category.</p>
     <div class="spec-grid" id="anatomy"></div>
   </section>
 
   <section class="block">
-    <div class="sec-head"><span class="sec-num">04</span><h2>Component library</h2></div>
+    <div class="sec-head"><span class="sec-num">05</span><h2>Component library</h2></div>
     <p class="sec-sub">Eleven components cover all five screens. Build each as a Figma component set with the variants noted.</p>
     <div class="spec-grid" id="components"></div>
   </section>
 
   <section class="block">
-    <div class="sec-head"><span class="sec-num">05</span><h2>Taking it into Figma</h2></div>
+    <div class="sec-head"><span class="sec-num">06</span><h2>Taking it into Figma</h2></div>
     <ol class="steps">
       <li><strong>Frame:</strong> iPhone 14 Pro, 393 × 852. Content gutter 16px. Bottom safe area 34px, so the tab bar floats 10px above it.</li>
       <li><strong>Variables:</strong> create the token table in section 02 as a single collection named <code>explore</code>, modes <em>light</em> only for now.</li>
@@ -420,7 +470,8 @@ ol.steps li strong{color:var(--page-ink)}
       <li><strong>Prototype — footer:</strong> from each tab, <em>Navigate to</em> the matching frame, animation <em>Smart animate, 250ms, ease out</em>. Keep the tab bar as a fixed-position layer so it doesn't animate.</li>
       <li><strong>Prototype — swipe:</strong> add <em>On drag → Navigate to</em> between adjacent frames in both directions, <em>Move in / Move out</em>, 250ms. This is what makes the whole-page slide work.</li>
       <li><strong>Prototype — rails:</strong> set the second-tier row to horizontal scrolling and let the cards overflow the frame; Figma handles the rest.</li>
-      <li><strong>Bank blocks:</strong> keep these as one component with a text/icon override per category, so a product change updates all five screens at once.</li>
+      <li><strong>Zanaco cards:</strong> keep these as one component with a text/icon override per category, so a product change updates all five screens at once.</li>
+      <li><strong>Swipe memory:</strong> Figma will not preserve per-frame scroll position on drag-navigate. Note it as a build requirement for engineering rather than trying to fake it in the prototype.</li>
     </ol>
   </section>
 
@@ -460,7 +511,8 @@ calendar:"M5.2 6.4h13.6V20H5.2ZM5.2 10.4h13.6M9.2 4.2v4.4M14.8 4.2v4.4",
 users:"M9.4 11.2a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2ZM3.4 19.8a6 6 0 0 1 12 0M16.4 11a3.1 3.1 0 1 0-.8-6M16.8 19.8h3.8a5.2 5.2 0 0 0-2.8-4.6",
 broom:"M12 3.6v7.6M7.6 11.2h8.8L17.6 20H6.4ZM10 14v3.4M14 14v3.4",
 pill:"M9.6 4.6a3.6 3.6 0 0 1 5.1 5.1l-5 5a3.6 3.6 0 0 1-5.1-5.1ZM7 7.2l5.1 5.1",
-tap:"M8.4 4.4v7M12 3v8.4M15.6 5.4v6M6.4 11.4h11.2v3.2a5.6 5.6 0 0 1-11.2 0Z"
+tap:"M8.4 4.4v7M12 3v8.4M15.6 5.4v6M6.4 11.4h11.2v3.2a5.6 5.6 0 0 1-11.2 0Z",
+check:"M5 12.6 9.6 17 19 7"
 };
 const ic=(n,s=20,w=1.7)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${P[n]||P.grid}"/></svg>`;
 
@@ -470,7 +522,7 @@ const CATS=[
 {
  id:"lifestyle", label:"Lifestyle", icon:"ticket", tint:["#6E2E4E","#3A1730"],
  blurb:"Experiences, entertainment and memberships",
- promos:[["Now\nShowing","#C0392B","film"],["Gym\nDeals","#1F6F5C","gym"],["Live\nEvents","#6E2E4E","ticket"],["Eat\nOut","#B3701F","pin"],["Vic\nFalls","#1B6076","spark"]],
+ promos:[["Now Showing","#C0392B","film"],["Gym Deals","#1F6F5C","gym"],["Live Events","#6E2E4E","ticket"],["Eat Out","#B3701F","pin"],["Vic Falls","#1B6076","spark"]],
  blocks:[
   {t:"hero",img:["Gym floor, Kabulonga","#8E3B32","#3D1A18"],kicker:"Featured this week",title:"Gold Standard Gym",body:"Lusaka's number one gym, Kabulonga. Two-week trial, no joining fee, open 05:00–22:00.",cta:"Learn more"},
   {t:"rail",title:"What's on",link:"See all",variant:"poster",items:[
@@ -478,7 +530,7 @@ const CATS=[
     ["Poster 2:3","#7A2038","#2A0A14","Zamrock Live","Lusaka Showgrounds · Sat"],
     ["Poster 2:3","#1B5E4A","#08241C","Victoria Falls Day Trip","Livingstone · K1,450"],
     ["Poster 2:3","#7A4A14","#2B1806","Marlin Restaurant","Longacres · Book a table"]]},
-  {t:"bank",title:"Pay your way",body:"Lifestyle spending, on Zanaco terms.",items:[
+  {t:"zcard",title:"Pay your way",body:"Lifestyle spending, on Zanaco terms.",items:[
     ["coins","Split a booking","Tickets and memberships over 3 months"],
     ["doc","Membership debit order","Set the gym up once, never queue again"]]},
   {t:"list",title:"Browse Lifestyle",items:[
@@ -492,31 +544,28 @@ const CATS=[
 {
  id:"shops", label:"Shops", icon:"cart", tint:["#1F5B3A","#0B2617"],
  blurb:"Products, groceries and agriculture",
- promos:[["Month\nEnd","#C0392B","store"],["New\nStock","#B3701F","cart"],["Today's\nSpecial","#1F5B3A","spark"],["Agri\nHub","#4B6B1C","leaf"],["Pharma","#1B6076","pill"]],
+ promos:[["Month End","#C0392B","store"],["New Stock","#B3701F","cart"],["Today's Special","#1F5B3A","spark"],["Agri Hub","#4B6B1C","leaf"],["Pharmacy","#1B6076","pill"]],
  blocks:[
   {t:"hero",img:["Aisle, month-end","#2E7048","#0E2A1B"],kicker:"Featured store",title:"Shoprite Manda Hill",body:"Month-end deals live now. Order by 14:00 for same-day delivery across Lusaka.",cta:"Shop now"},
   {t:"grid",title:"Stores",cols:3,items:[
     ["store","Shoprite","Groceries","#C0392B"],["store","Pick n Pay","Groceries","#1F5B3A"],["store","Choppies","Groceries","#1B4F8A"],
     ["pill","Pharmacies","Health","#1B6076"],["home","Furniture","Home","#7A4A14"],["tap","Electronics","Tech","#3A3A5C"]]},
-  {t:"rail",title:"Your lists",link:"Manage",variant:"wide",items:[
-    ["List tool","#2E4A7A","#111C33","Family Grocery List","Shared with 4 people"],
-    ["AI tool","#6B3A7A","#251232","AI Grocery List","Cheapest basket across 3 stores"],
-    ["Agri","#4B6B1C","#1A2608","Agriculture Marketplace","Seed, fertiliser, equipment"]]},
-  {t:"bank",title:"Groceries and inputs, financed",body:"Budget the month, fund the season.",items:[
-    ["wallet","Grocery budget wallet","Ring-fence month-end spend before it moves"],
-    ["leaf","Agri input financing","Seed, fertiliser and equipment loans from K2,500"]]},
+  {t:"zcard",title:"Your lists and your budget",body:"Lists are a Zanaco feature, not a shop — add items to them from any store in Explore.",items:[
+    ["list","Family Grocery List","3 shared lists · add anyone, split the bill"],
+    ["spark","AI Grocery List","Suggested from what you buy every month"],
+    ["wallet","Grocery budget wallet","Ring-fence month-end spend before it moves"]]},
   {t:"list",title:"Browse Shops",items:[
-    ["cart","Family Grocery List","Shared household shopping lists","#1F5B3A"],
-    ["spark","AI Grocery List","Plan the most efficient trip","#6B3A7A"],
-    ["leaf","Agriculture Marketplace","Suppliers, inputs and equipment","#4B6B1C"],
+    ["store","Supermarkets","Shoprite, Pick n Pay, Choppies","#1F5B3A"],
+    ["leaf","Agriculture Marketplace","Seed, fertiliser, equipment suppliers","#4B6B1C"],
     ["pill","Pharmacies","Prescriptions and over-the-counter","#1B6076"],
-    ["home","Furniture & electronics","Buy now, pay over 6 months","#7A4A14"]]}
+    ["home","Furniture","Buy now, pay over 6 months","#7A4A14"],
+    ["tap","Electronics","Phones, appliances, computing","#3A3A5C"]]}
  ]
 },
 {
  id:"homes", label:"Homes", icon:"home", tint:["#253A66","#0D1526"],
  blurb:"Property, rentals and maintenance",
- promos:[["New\nListings","#253A66","home"],["To\nRent","#1F6F5C","doc"],["Repo\nSales","#C0392B","pin"],["Home\nCover","#7A4A14","shield"],["Fix\nIt","#3A3A5C","hammer"]],
+ promos:[["New Listings","#253A66","home"],["To Rent","#1F6F5C","doc"],["Repo Sales","#C0392B","pin"],["Home Cover","#7A4A14","shield"],["Fix It","#3A3A5C","hammer"]],
  blocks:[
   {t:"segment",options:["Buy","Rent","Sell"]},
   {t:"hero",img:["4-bed, Ibex Hill","#37568F","#121C30"],kicker:"Featured listing",title:"4 Bedroom House, Ibex Hill",body:"1,200 m² · walled · borehole · staff quarters. Listed by Pam Golding Lusaka.",price:"K2,450,000",cta:"View property"},
@@ -524,7 +573,7 @@ const CATS=[
     ["3-bed, Roma","#2F5E73","#0E2029","3 Bed · Roma Park","K1,850,000"],
     ["2-bed, Kabulonga","#6B4A2F","#241609","2 Bed Flat · Kabulonga","K9,500 / month"],
     ["Plot, Chalala","#4B6B4B","#16241A","Plot 40×30 · Chalala","K420,000"]]},
-  {t:"bank",title:"Own it, rent it, protect it",body:"The three money decisions a home actually needs.",items:[
+  {t:"zcard",title:"Own it, rent it, protect it",body:"The three money decisions a home actually needs.",items:[
     ["coins","Rental Deposit Savings Account","Deposit held between tenant and landlord, earning interest"],
     ["doc","Home Loan application","Pre-qualify in about 4 minutes"],
     ["shield","Home Insurance","Buildings and contents in one cover"]]},
@@ -539,12 +588,12 @@ const CATS=[
 {
  id:"travel", label:"Travel", icon:"plane", tint:["#0E5563","#04222A"],
  blurb:"Transport and movement",
- promos:[["Smart\nJourney","#0E5563","car"],["Flights","#1B4F8A","plane"],["Bus","#B3701F","bus"],["Lodges","#1F6F5C","bed"],["Forex","#3A3A5C","wallet"]],
+ promos:[["Smart Journey","#0E5563","car"],["Flights","#1B4F8A","plane"],["Bus","#B3701F","bus"],["Lodges","#1F6F5C","bed"],["Forex","#3A3A5C","wallet"]],
  blocks:[
   {t:"hero",img:["Great North Road","#16697A","#062028"],kicker:"Smart Journey",title:"Lusaka → Ndola",place:"321 km · 3 tolls · about 4h 10m",body:"Plan the route, see the toll cost up front and let the car pay as it passes.",price:"K180 tolls",cta:"Plan this journey"},
   {t:"grid",title:"How are you moving?",cols:4,items:[
     ["plane","Flights","Proflight","#1B4F8A"],["bus","Bus","Mazhandu","#B3701F"],["bed","Lodges","2,400+","#1F6F5C"],["wallet","Wallet","Forex","#3A3A5C"]]},
-  {t:"bank",title:"Travel covered",body:"Before you go, and while you are gone.",items:[
+  {t:"zcard",title:"Travel covered",body:"Before you go, and while you are gone.",items:[
     ["shield","Travel Insurance","Medical, delay and baggage cover from K95 a trip"],
     ["car","Smart toll auto-pay","Link a card once, pass every toll without stopping"],
     ["wallet","Traveller Wallet","Hold USD, ZAR and GBP at a locked rate"]]},
@@ -557,18 +606,23 @@ const CATS=[
  ]
 },
 {
- id:"services", label:"Services", icon:"grid", tint:["#7A4A1E","#2A1708"],
- blurb:"Copper Pages business and services marketplace",
- promos:[["Copper\nPages","#7A4A1E","book"],["Insure","#1B4F8A","shield"],["Health","#1F6F5C","heart"],["Build","#B3701F","hammer"],["Events","#6E2E4E","calendar"]],
+ id:"copperpages", label:"Copper Pages", icon:"book", tint:["#7A4A1E","#2A1708"],
+ blurb:"Business directory, services and tenders",
+ promos:[["Directory","#7A4A1E","book"],["Tenders","#1B4F8A","doc"],["Insure","#2E5F8A","shield"],["Health","#1F6F5C","heart"],["Build","#B3701F","hammer"]],
  blocks:[
   {t:"search",placeholder:"Search 8,400 Zambian businesses"},
   {t:"hero",img:["Workshop, Kafue Road","#9A6327","#2E1B08"],kicker:"Featured business",title:"Lusaka Auto Clinic",body:"Copper Pages verified · 4.8 from 212 reviews · Kafue Road. Book a service slot and pay in the app.",cta:"Book a service"},
+  {t:"tenders",title:"Tenders",items:[
+    ["Supply of office furniture","Ministry of Health · closes in 6 days","K480,000"],
+    ["Borehole drilling, 12 sites","Lusaka Water · closes in 11 days","K1.2m"],
+    ["IT support, 24 months","Zanaco Procurement · closes in 3 days","K960,000"]]},
   {t:"grid",title:"Categories",cols:4,items:[
-    ["book","Copper Pages","Directory","#7A4A1E"],["shield","Insurance","4 types","#1B4F8A"],["book","Education","Schools","#2E6B4F"],["heart","Healthcare","Clinics","#1F6F5C"],
+    ["book","Directory","8,400","#7A4A1E"],["shield","Insurance","4 types","#2E5F8A"],["book","Education","Schools","#2E6B4F"],["heart","Healthcare","Clinics","#1F6F5C"],
     ["hammer","Construction","Builders","#B3701F"],["users","Professional","Legal","#3A3A5C"],["calendar","Events","Weddings","#6E2E4E"],["broom","Household","Cleaning","#4B6B1C"]]},
-  {t:"bank",title:"Insurance and secure payment",body:"The bank sits between you and the provider.",items:[
-    ["shield","Insurance hub","Motor, medical, travel and property in one place"],
-    ["coins","Pay on completion","Funds held, released when the job is signed off"]]},
+  {t:"zcard",title:"Pay providers, protect the job",body:"Hiring a freelancer or a contractor is a payment problem before it is anything else.",items:[
+    ["wallet","Pay a supplier directly","Pay a freelancer or contractor from the app, no cash, receipt on file"],
+    ["coins","Pay on completion","Funds held, released when you sign the job off"],
+    ["shield","Insurance hub","Motor, medical, travel and property in one place"]]},
   {t:"list",title:"Trending providers",items:[
     ["heart","Medland Hospital","Book appointment · pay consultation","#1F6F5C"],
     ["scale","Mwenya & Partners","Conveyancing and commercial law","#3A3A5C"],
@@ -594,9 +648,14 @@ const rGrid=b=>`<div class="s-title"><h4>${b.title}</h4></div>
  <div class="tilegrid c${b.cols}">${b.items.map(i=>
    `<button class="tile"><span class="glyph" style="background:${i[3]}">${ic(i[0],18)}</span><b>${i[1]}</b><small>${i[2]}</small></button>`).join("")}</div>`;
 
-const rBank=b=>`<div class="bank"><span class="tag">Zanaco</span><h5>${b.title}</h5><p>${b.body}</p>
- <div class="bank-actions">${b.items.map(i=>
-   `<button class="bank-act"><span class="dot">${ic(i[0],16)}</span><span><b>${i[1]}</b><small>${i[2]}</small></span><span class="chev">${ic("chev",15)}</span></button>`).join("")}</div></div>`;
+const rZ=b=>`<div class="zcard"><span class="tag">Zanaco</span><h5>${b.title}</h5><p>${b.body}</p>
+ <div class="z-actions">${b.items.map(i=>
+   `<button class="z-act"><span class="dot">${ic(i[0],16)}</span><span><b>${i[1]}</b><small>${i[2]}</small></span><span class="chev">${ic("chev",15)}</span></button>`).join("")}</div></div>`;
+
+const rTenders=b=>`<div class="s-title"><h4>${b.title}</h4></div>
+ <div class="duo"><button class="cta ghost sm">${ic("search",16)}Search tenders</button><button class="cta sm" style="justify-content:center">${ic("doc",16)}List a tender</button></div>
+ <div class="list">${b.items.map(i=>
+   `<button class="row"><span class="txt"><b>${i[0]}</b><small>${i[1]}</small></span><span class="tender-val">${i[2]}</span><span class="chev">${ic("chev",16)}</span></button>`).join("")}</div>`;
 
 const rList=b=>`<div class="s-title"><h4>${b.title}</h4></div>
  <div class="list">${b.items.map(i=>
@@ -608,7 +667,7 @@ const rSeg=b=>`<div class="segment">${b.options.map((o,n)=>
 
 const rSearch=b=>`<div class="searchbar">${ic("search",17)}<input id="svc-search" type="search" placeholder="${b.placeholder}" aria-label="${b.placeholder}"></div>`;
 
-const R={hero:rHero,rail:rRail,grid:rGrid,bank:rBank,list:rList,segment:rSeg,search:rSearch};
+const R={hero:rHero,rail:rRail,grid:rGrid,zcard:rZ,list:rList,segment:rSeg,search:rSearch,tenders:rTenders};
 
 const pager=document.getElementById("pager");
 pager.innerHTML=CATS.map(c=>`<section class="screen" id="scr-${c.id}" aria-label="${c.label}">
@@ -651,12 +710,74 @@ document.querySelectorAll(".segment").forEach(seg=>{
   });
 });
 
+/* ---- grocery list flow screens ---- */
+const frame=(title,inner,cap,back=true)=>`<div><div class="phone flow"><div class="app">
+  <div class="statusbar"><span>7:11</span><span class="sig">
+    <svg width="16" height="11" viewBox="0 0 16 11" aria-hidden="true"><rect x="0" y="7" width="2.6" height="4" rx="1" fill="currentColor"/><rect x="4.4" y="5" width="2.6" height="6" rx="1" fill="currentColor"/><rect x="8.8" y="2.6" width="2.6" height="8.4" rx="1" fill="currentColor"/><rect x="13.2" y="0" width="2.6" height="11" rx="1" fill="currentColor"/></svg>
+    <span class="batt"></span></span></div>
+  <div class="appbar"><span class="iconbtn">${back?ic("back",21):""}</span><h3>${title}</h3><span class="iconbtn">${ic("search",20)}</span></div>
+  <div class="screen" style="padding-bottom:20px">${inner}</div>
+</div></div><div class="flowcap">${cap}</div></div>`;
+
+const LISTS=[
+ ["Family Grocery","18 items · Shoprite Manda Hill",["#C0392B","#1F5B3A","#7A4A1E","#2E5F8A"],"K1,240"],
+ ["Braai Saturday","9 items · shared with 3",["#6E2E4E","#1B6076","#4B6B1C"],"K680"],
+ ["Baby shower · Mwila","22 items · shared with 6",["#B3701F","#3A3A5C","#1F6F5C","#C0392B","#2E6B4F","#6E2E4E"],"K2,150"]];
+
+const myLists=`
+ <div style="padding:2px 14px 12px"><button class="cta">Create a new list${ic("arrow",18)}</button></div>
+ <div class="s-title"><h4>Shared with you</h4><a href="#">Manage</a></div>
+ <div class="list">${LISTS.map(l=>`<button class="row">
+   <span class="thumb" style="background:${l[2][0]}">${ic("list",19)}</span>
+   <span class="txt"><b>${l[0]}</b><small>${l[1]}</small></span>
+   <span class="tender-val">${l[3]}</span><span class="chev">${ic("chev",16)}</span></button>`).join("")}</div>
+ <div class="zcard"><span class="tag">Zanaco</span><h5>AI Grocery List</h5>
+  <p>Twelve things you buy most months, priced across three stores. Nothing is added until you say so.</p>
+  <div class="z-actions">
+   <button class="z-act"><span class="dot">${ic("spark",16)}</span><span><b>Build this month's list</b><small>Cheapest basket: Pick n Pay, K1,180</small></span><span class="chev">${ic("chev",15)}</span></button>
+   <button class="z-act"><span class="dot">${ic("wallet",16)}</span><span><b>Grocery budget wallet</b><small>K1,500 set aside for October</small></span><span class="chev">${ic("chev",15)}</span></button>
+  </div></div>`;
+
+const ITEMS=[
+ ["Mealie meal, 25kg","Added by Mum","1",1],
+ ["Cooking oil, 2L","Added by you","2",1],
+ ["Kapenta, dried","Added by Chanda","500g",0],
+ ["Tomatoes","Added by Mum","2kg",0],
+ ["Washing powder","Added by you","3kg",0],
+ ["Bread, brown","Added by Chanda","4",0]];
+
+const sharedList=`
+ <div class="people">${["M","C","T","B"].map((w,n)=>
+   `<span class="who" style="background:${["#C0392B","#1F5B3A","#7A4A1E","#2E5F8A"][n]}">${w}</span>`).join("")}
+   <span class="who add">+</span></div>
+ <div class="searchbar">${ic("cart",17)}<input id="add-item" placeholder="Add an item from any shop" aria-label="Add an item from any shop"></div>
+ <div class="list">${ITEMS.map(i=>`<button class="item" data-done="${i[3]}">
+   <span class="box">${ic("check",13,2.6)}</span>
+   <span class="txt"><b>${i[0]}</b><small>${i[1]}</small></span>
+   <span class="qty">${i[2]}</span></button>`).join("")}</div>
+ <div class="totalbar"><span><small>Estimated total</small><b>K1,240</b></span>
+   <span style="text-align:right"><small>Shoprite Manda Hill</small><b style="font-size:12px">In stock</b></span></div>
+ <div style="padding:12px 14px 0"><button class="cta">Send to basket${ic("arrow",18)}</button></div>
+ <div class="zcard"><span class="tag">Zanaco</span><h5>Split this basket</h5>
+  <p>Four people on the list. Request each share and pay the shop once.</p>
+  <div class="z-actions"><button class="z-act"><span class="dot">${ic("coins",16)}</span><span><b>Request K310 each</b><small>Sent to Mum, Chanda, Taonga</small></span><span class="chev">${ic("chev",15)}</span></button></div></div>`;
+
+document.getElementById("flows").innerHTML=
+  frame("My lists",myLists,"01 · Several lists, each with its own people")+
+  frame("Family Grocery",sharedList,"02 · One shared list, opened");
+
+document.querySelectorAll(".item").forEach(it=>it.addEventListener("click",()=>{
+  it.dataset.done = it.dataset.done==="1" ? "0" : "1";
+}));
+
 /* ---- spec sections ---- */
 const TOKENS=[
 ["brand/red","#D0212B","Footer navigation bar only"],
 ["gold/500","#DDA04C","Primary CTA fill, top stop"],
 ["gold/600","#C98B3E","CTA bottom stop, link text, section 'See all'"],
-["bank/navy","#16233A","Banking block background — used nowhere else"],
+["copper/700","#7F411A","Zanaco card mid stop"],
+["copper/500","#A8672B","Zanaco card highlight, ghost button stroke"],
+["copper/900","#4E2710","Zanaco card bottom stop"],
 ["ink/900","#17181C","Headings and body"],
 ["ink/500","#736D69","Secondary text, list meta"],
 ["surface/card","#FFFFFF","Hero, list and card fills"],
@@ -677,7 +798,8 @@ const ANATOMY=CATS.map(c=>({name:c.label,tint:c.tint[0],role:c.blurb,rows:[
    hero:["Featured hero","16:9 image, kicker, title, body, gold CTA — one item, no carousel"],
    rail:["Second tier: "+(b.variant==="poster"?"2:3 poster rail":"3:2 card rail"),b.variant==="poster"?"126px wide posters — cinema and event artwork ships in this ratio":"190px cards with a caption line for price or status"],
    grid:["Second tier: "+b.cols+"-up tile grid","Icon-led tiles for things recognised by name, not photo"],
-   bank:["Banking layer","Navy block, up to three product actions, placed after the content it serves"],
+   zcard:["Zanaco card","Copper block, up to three Zanaco actions, placed after the content it serves"],
+   tenders:["Tenders","Search tenders / List a tender pair, then live tenders with buyer, closing date and value"],
    list:["Icon list","40px icon thumb, title, one meta line, chevron — the long tail"],
    segment:["Segmented control","Buy / Rent / Sell filters the whole page below it"],
    search:["Search field","Leads the screen — a directory this size cannot be browsed"]
@@ -694,11 +816,13 @@ const COMPONENTS=[
 ["App Bar","Fixed","Back · centred title · search. 32px touch targets, grid 32/1fr/32."],
 ["Promo Chip","Rail item","56px disc + 2-line caption at 10px. Variants: icon, image, brand mark."],
 ["Featured Hero","Card","16:9 media, kicker, title, optional price, body, CTA. Variants: with price, without."],
-["Gold CTA","Button","Full width, radius 12, label left, arrow right. Variants: filled, ghost, disabled."],
+["Gold CTA","Button","Full width, height 52, radius 14, flat gold fill, label left, arrow right. Variants: filled, ghost (copper stroke), small, disabled."],
 ["Poster Card","Rail item","126 × 189 image, title, meta. Lifestyle only."],
 ["Wide Card","Rail item","190px, 3:2 media, caption block. Shops, Homes, Travel."],
 ["Tile","Grid item","34px glyph, label, caption. Variants: 3-up, 4-up."],
-["Bank Block","Section","Navy, Zanaco tag, title, body, 1–3 actions. Variants: 1, 2, 3 actions."],
+["Zanaco Card","Section","Copper gradient, Zanaco tag, title, body, 1–3 actions. Variants: 1, 2, 3 actions."],
+["Tender Row","List item","Title, buyer + closing date, value right-aligned in mono. Variants: open, closing soon, closed."],
+["Duo Button","Control","Two half-width buttons, one ghost one filled. Search tenders / List a tender."],
 ["List Row","List item","40px thumb, title, meta, chevron. Variants: chevron, action label, price."],
 ["Segmented Control","Control","2–3 options, active pill white. Homes and any filtered screen."]];
 document.getElementById("components").innerHTML=COMPONENTS.map(c=>
