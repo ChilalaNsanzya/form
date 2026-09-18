@@ -90,19 +90,30 @@ Two builds from one source:
 `app.html` is generated, not hand-edited. Change the screens in `index.html`
 and rebuild.
 
-### On your own machine
+### Local server
+
+On Windows, double-click `serve.cmd`. Or from the repo root:
 
 ```
 git pull
-cd prototype
-python -m http.server 8000
+node scripts/serve.mjs
 ```
 
-Then on the laptop, `http://localhost:8000/app.html`. To open it on a phone on
-the same wifi, find the laptop's LAN address (`ipconfig` on Windows, look for
-IPv4 under your wifi adapter) and use `http://<that-address>:8000/app.html`.
-Both devices must be on the same network, and Windows Firewall may prompt to
-allow Python through — it has to be allowed for the phone to connect.
+It prints two addresses — `http://localhost:8000/` for this machine and
+`http://<your-lan-ip>:8000/` for a phone on the same wifi. `/` serves the
+phone build; the spec page is at `/index.html`. Windows Firewall will ask to
+allow Node the first time — it has to be allowed or the phone cannot connect.
 
-No server is strictly needed: opening `app.html` from disk works too, since
-everything except the web fonts is inline.
+Requires Node.js. With Python instead: `cd prototype && python -m http.server
+8000`, then `http://<your-lan-ip>:8000/app.html`.
+
+No server is strictly needed for the laptop: opening `prototype/app.html` from
+disk works, since everything except the web fonts is inline. A phone does need
+the server, or one of the hosted links below.
+
+### Hosted
+
+Enable GitHub Pages (Settings → Pages → deploy from this branch, root folder)
+and the prototype is at
+`https://chilalansanzya.github.io/form/prototype/app.html`, updating on every
+push. Note this makes it publicly reachable by anyone with the URL.
