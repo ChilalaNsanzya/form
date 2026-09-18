@@ -31,7 +31,8 @@ Lifestyle, Shops and Copper Pages share a browse spine:
 1. Status rail — circular updates, pinned below the app bar. It scrolls
    horizontally on its own and never moves with the page or triggers the
    category swipe
-2. Featured hero — one item, large 16:9 image, gold CTA, **no carousel**
+2. Featured carousel — three cards at 86% width so the next one peeks, snap
+   scrolling, dots for position
 3. Second tier — the horizontally scrolling row, treatment varies per category
 4. Zanaco card — copper block, used nowhere else in the app
 5. Icon list — the long tail, 40px icon thumbs
@@ -45,7 +46,10 @@ switches the entire view below it — different filters, different results and a
 different Zanaco card per mode. Buy leads to loan pre-qualification, Rent to the
 rental deposit account, Sell to a valuation and settling an existing loan.
 
-**Travel** opens on From and To with a swap control. Before a route exists the
+**Travel** opens on trip type (one way or return), From and To with a swap
+control, and departure and return dates. The leading icon in the From field is
+the locate control, so "use my location" lives inside the field rather than as
+a chip beneath it. Before a route exists the
 screen shows recent journeys and an arrivals pack (eSIM, mobile money wallet,
 forex) for visitors landing in Zambia. Once both ends are set, results are drawn
 from route data — distance, tolls, driving time, and the operators and prices
@@ -65,11 +69,13 @@ another route's numbers.
 - **Grocery lists are a feature, not a shop.** They live in the Zanaco card on
   the Shops screen. A user can hold several lists, each shared with a different
   set of people, and add items to any of them from any store in Explore.
-- **Full-screen horizontal swipe is an accelerator, not the primary nav.** It
-  works at five pages and would break at seven. Two build requirements: a swipe
-  starting on a horizontal rail scrolls the rail rather than the page, so keep
-  enough full-bleed non-scrolling surface to page from; and each page must keep
-  its own vertical scroll position across swipes.
+- **Categories are tapped, not swiped.** A screen has about one horizontal
+  gesture to spend, and spending it on navigation meant every rail competed for
+  it — the page-swipe fired or didn't depending on where the thumb landed.
+  Footer tap switches category with a 200ms cross-fade, and each tab keeps its
+  own scroll position. The gesture now belongs to the content: the featured
+  slot, the status rail and the second-tier rails. Three horizontal rails per
+  screen is the ceiling.
 - **Layout varies by content shape.** Posters for cinema, marks for retailers,
   price-led cards for property, mode tiles for transport, search for a directory.
 

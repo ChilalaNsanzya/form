@@ -128,17 +128,17 @@ h2{font-size:clamp(20px,3vw,26px); margin:0; font-weight:700; letter-spacing:-.0
 }
 .logobtn:focus-visible{outline:2px solid var(--app-ink); outline-offset:2px}
 
-/* horizontal pager */
-.pager{
-  flex:1; display:flex; overflow-x:auto; overflow-y:hidden;
-  scroll-snap-type:x mandatory; scrollbar-width:none;
-}
-.pager::-webkit-scrollbar{display:none}
+/* category switching — tap only. Screens stay mounted so each keeps its
+   own scroll position; visibility (not display) is what preserves scrollTop. */
+.pager{flex:1; position:relative; overflow:hidden}
 .screen{
-  min-width:100%; width:100%; scroll-snap-align:start; scroll-snap-stop:always;
+  position:absolute; inset:0; width:100%;
   overflow-y:auto; overflow-x:hidden; scrollbar-width:none; padding-bottom:84px;
+  opacity:0; visibility:hidden; transition:opacity .2s ease;
 }
+.screen.on{opacity:1; visibility:visible}
 .screen::-webkit-scrollbar{display:none}
+@media (prefers-reduced-motion: reduce){ .screen{transition:none} }
 
 /* promo rail */
 .rail{
@@ -206,6 +206,31 @@ h2{font-size:clamp(20px,3vw,26px); margin:0; font-weight:700; letter-spacing:-.0
 .cta:focus-visible{outline:2px solid var(--app-ink); outline-offset:2px}
 .cta.ghost{background:transparent; border:1.5px solid var(--copper-2); color:var(--copper-2)}
 .cta.sm{padding:12px 13px; font-size:13.5px; border-radius:12px}
+
+/* featured carousel — the screen's one editorial slot, now swipeable */
+.fcar{
+  display:flex; gap:10px; overflow-x:auto; padding:0 14px 10px;
+  scroll-snap-type:x mandatory; overscroll-behavior-x:contain; scrollbar-width:none;
+  scroll-padding-left:14px;
+}
+.fcar::-webkit-scrollbar{display:none}
+.fslide{flex:0 0 86%; scroll-snap-align:start}
+.fslide .hero{margin:0}
+.fdots{display:flex; gap:6px; justify-content:center; padding:2px 0 4px}
+.fdots i{width:6px; height:6px; border-radius:50%; background:#CFC7BF; transition:.2s}
+.fdots i.on{width:18px; border-radius:3px; background:var(--copper-2)}
+
+/* location field with an inline locate control */
+button.pin.locate{
+  border:1px solid rgba(168,103,43,.30); cursor:pointer; padding:0;
+  background:#F5EDE3; color:var(--copper-2);
+}
+button.pin.locate:active{background:#EEE1D2}
+.locate:focus-visible{outline:2px solid var(--copper-2); outline-offset:2px}
+.fieldpair{display:flex; gap:9px; margin:0 14px 8px}
+.fieldpair .field{flex:1; margin:0; min-width:0}
+.field[hidden]{display:none}
+.fieldpair .field input{text-overflow:ellipsis}
 
 /* tier-2 carousel */
 .carousel{display:flex; gap:12px; overflow-x:auto; padding:0 14px 4px; scroll-snap-type:x mandatory; scrollbar-width:none}
@@ -503,10 +528,11 @@ ol.steps li strong{color:var(--page-ink)}
 
       <div class="notes">
         <div class="note">
-          <span class="verdict">Your carousel question — answered</span>
-          <h3>Don't put a carousel in the hero slot</h3>
-          <p>The horizontal gesture is already spoken for. If the whole page slides between Lifestyle → Shops → Homes, a hero that also swipes horizontally will eat those swipes and people will think navigation is broken. Two competing horizontal scrollers stacked at the top of a screen is the single most common super-app usability failure.</p>
-          <p><strong>Keep the hero as one fixed, editorial slot</strong> — one merchant, one deal, one large image, one gold CTA. Rotate it server-side per session, not per swipe. Put the horizontal movement one level down in the second tier, where the cards are visibly narrower than the screen so the affordance reads as "this row scrolls", not "this page scrolls".</p>
+          <span class="verdict">Decided — tap to navigate, swipe inside sections</span>
+          <h3>The categories don't slide. The content does.</h3>
+          <p>A screen has roughly one horizontal gesture to spend. Spending it on category navigation meant every rail on the page competed for it, so the page-swipe fired or didn't depending on where the thumb landed — a gesture that works half the time reads as a broken app, not a missing feature.</p>
+          <p>Swipe also implies a sequence. It suits photos and onboarding, where order carries meaning. Nobody thinks "Homes is two to the right of Lifestyle", so swiping between categories is guessing, and Lifestyle to Copper Pages costs four swipes against one tap.</p>
+          <p><strong>Footer tap switches category</strong>, with a 200ms cross-fade and each tab keeping its own scroll position. <strong>The gesture is now free for content</strong>: the featured slot carries three cards at 86% width so the next one peeks — that peek is what makes it discoverable without instruction — plus dots for position. Three horizontal rails per screen is the ceiling.</p>
         </div>
         <div class="note">
           <h3>Why the layout changes per category</h3>
@@ -518,12 +544,9 @@ ol.steps li strong{color:var(--page-ink)}
           <p>Each card sits <strong>after</strong> the marketplace content it belongs to — you see the house before you see the home loan, the shops before the grocery list.</p>
         </div>
         <div class="note">
-          <span class="verdict">Full-screen horizontal scroll — my read</span>
-          <h3>Keep it, but as an accelerator</h3>
-          <p>It is good at five pages and would be bad at seven. Two real problems to design around:</p>
-          <p><strong>Nested rails eat the gesture.</strong> A swipe that starts on the poster rail or the tile grid scrolls that row, not the page. That is correct behaviour, but it means the page-swipe silently fails depending on where the thumb lands. Fix it by keeping a generous swipeable margin — the hero, the Zanaco card and the list are all full-bleed and non-scrolling, so most of the screen still pages.</p>
-          <p><strong>Position memory.</strong> Each page must keep its own vertical scroll position when you swipe away and back, or returning to Shops from Homes dumps you at the top and the gesture feels lossy.</p>
-          <p>So: footer tap is the primary navigation and the thing you test with users; swipe is the accelerator for people who find it. Never make swipe the only way to reach anything.</p>
+          <h3>Input before imagery</h3>
+          <p>Homes and Travel carry no featured slot at all. Both are reached with an intent and a place, so there is nothing worth featuring until the user has said where. Homes opens on Buy / Rent / Sell and a location field; Travel on From, To, dates and trip type.</p>
+          <p>Removing the page-swipe made these safer too — horizontal drags next to text fields and segment pills were the likeliest place for mis-fires.</p>
         </div>
         <div class="note">
           <h3>One change to your footer order</h3>
@@ -569,11 +592,11 @@ ol.steps li strong{color:var(--page-ink)}
       <li><strong>Variables:</strong> create the token table in section 02 as a single collection named <code>explore</code>, modes <em>light</em> only for now.</li>
       <li><strong>Components:</strong> build section 04 bottom-up — Row, then Card, then Rail, then Tab Bar. Every component gets auto-layout with vertical resizing set to hug.</li>
       <li><strong>Screens:</strong> one frame per category, stacked left to right in the order of the footer. Set each frame's content to <em>vertical scrolling</em>.</li>
-      <li><strong>Prototype — footer:</strong> from each tab, <em>Navigate to</em> the matching frame, animation <em>Smart animate, 250ms, ease out</em>. Keep the tab bar as a fixed-position layer so it doesn't animate.</li>
-      <li><strong>Prototype — swipe:</strong> add <em>On drag → Navigate to</em> between adjacent frames in both directions, <em>Move in / Move out</em>, 250ms. This is what makes the whole-page slide work.</li>
+      <li><strong>Prototype — footer:</strong> from each tab, <em>Navigate to</em> the matching frame, animation <em>Dissolve, 200ms, ease out</em>. Keep the tab bar as a fixed-position layer so it doesn't animate, and tick <em>preserve scroll position</em>.</li>
+      <li><strong>No page-level swipe:</strong> do not add drag interactions between the category frames. Category changes are taps only; the drag gesture belongs to the rails inside each screen.</li>
       <li><strong>Prototype — rails:</strong> set the second-tier row to horizontal scrolling and let the cards overflow the frame; Figma handles the rest.</li>
       <li><strong>Zanaco cards:</strong> keep these as one component with a text/icon override per category, so a product change updates all five screens at once.</li>
-      <li><strong>Swipe memory:</strong> Figma will not preserve per-frame scroll position on drag-navigate. Note it as a build requirement for engineering rather than trying to fake it in the prototype.</li>
+      <li><strong>Featured carousel:</strong> set the row to horizontal scrolling with the card at 86% of frame width, so the next card peeks. The peek is the affordance — without it nobody scrolls the row.</li>
     </ol>
   </section>
 
@@ -615,6 +638,7 @@ broom:"M12 3.6v7.6M7.6 11.2h8.8L17.6 20H6.4ZM10 14v3.4M14 14v3.4",
 pill:"M9.6 4.6a3.6 3.6 0 0 1 5.1 5.1l-5 5a3.6 3.6 0 0 1-5.1-5.1ZM7 7.2l5.1 5.1",
 tap:"M8.4 4.4v7M12 3v8.4M15.6 5.4v6M6.4 11.4h11.2v3.2a5.6 5.6 0 0 1-11.2 0Z",
 check:"M5 12.6 9.6 17 19 7",
+locate:"M12 3.2v2.6M12 18.2v2.6M20.8 12h-2.6M5.8 12H3.2M12 16.4a4.4 4.4 0 1 0 0-8.8 4.4 4.4 0 0 0 0 8.8Z",
 swap:"M7.4 4.6v14M7.4 4.6 4.6 7.6M7.4 4.6l2.8 3M16.6 19.4V5.4M16.6 19.4l-2.8-3M16.6 19.4l2.8-3"
 };
 /* ICONS:START — generated by scripts/import-icons.mjs from assets/icons/*.svg */
@@ -636,7 +660,10 @@ const CATS=[
  blurb:"Experiences, entertainment and memberships",
  promos:[["Now Showing","#C0392B","film",1],["Gym Deals","#1F6F5C","gym",1],["Live Events","#6E2E4E","ticket",1],["Eat Out","#B3701F","pin",0],["Vic Falls","#1B6076","spark",0],["Comedy","#7A2038","ticket",0],["Spa Day","#2E6B4F","heart",0],["Golf","#4B6B1C","spark",0],["Half Term","#2E5F8A","calendar",0],["Book Club","#3A3A5C","book",0],["Festivals","#8A4A20","ticket",0]],
  blocks:[
-  {t:"hero",img:["Gym floor, Kabulonga","#8E3B32","#3D1A18"],kicker:"Featured this week",title:"Gold Standard Gym",body:"Lusaka's number one gym, Kabulonga. Two-week trial, no joining fee, open 05:00–22:00.",cta:"Learn more"},
+  {t:"featured",items:[
+    {img:["Gym floor, Kabulonga","#8E3B32","#3D1A18"],kicker:"Featured this week",title:"Gold Standard Gym",body:"Lusaka's number one gym, Kabulonga. Two-week trial, no joining fee, open 05:00–22:00.",cta:"Learn more"},
+    {img:["Cinema, Manda Hill","#2B2F6B","#0F1130"],kicker:"Opening Friday",title:"Dune: Part Three",body:"Four screens at Manda Hill, including one IMAX. Tickets from K85, half price on Tuesdays.",cta:"Book tickets"},
+    {img:["Stage, Showgrounds","#7A2038","#2A0A14"],kicker:"This Saturday",title:"Zamrock Live",body:"Fifteen acts across two stages at the Lusaka Showgrounds. Gates at 14:00.",price:"From K250",cta:"Get a ticket"}]},
   {t:"rail",title:"What's on",link:"See all",variant:"poster",items:[
     ["Poster 2:3","#2B2F6B","#0F1130","Dune: Part Three","Manda Hill · from K85"],
     ["Poster 2:3","#7A2038","#2A0A14","Zamrock Live","Lusaka Showgrounds · Sat"],
@@ -658,7 +685,10 @@ const CATS=[
  blurb:"Products, groceries and agriculture",
  promos:[["Month End","#C0392B","store",1],["New Stock","#B3701F","cart",1],["Specials","#1F5B3A","spark",1],["Agri Hub","#4B6B1C","leaf",0],["Pharmacy","#1B6076","pill",0],["Back to School","#2E5F8A","book",0],["Bulk Buys","#7A4A14","cart",0],["Fresh Produce","#2E6B4F","leaf",0],["Appliances","#3A3A5C","tap",0],["Baby & Kids","#6E2E4E","heart",0],["Hardware","#8A4A20","hammer",0]],
  blocks:[
-  {t:"hero",img:["Aisle, month-end","#2E7048","#0E2A1B"],kicker:"Featured store",title:"Shoprite Manda Hill",body:"Month-end deals live now. Order by 14:00 for same-day delivery across Lusaka.",cta:"Shop now"},
+  {t:"featured",items:[
+    {img:["Aisle, month-end","#2E7048","#0E2A1B"],kicker:"Featured store",title:"Shoprite Manda Hill",body:"Month-end deals live now. Order by 14:00 for same-day delivery across Lusaka.",cta:"Shop now"},
+    {img:["Fresh produce","#1F5B3A","#0A2416"],kicker:"Fresh today",title:"Pick n Pay Levy Junction",body:"Local produce priced this morning. Free delivery over K500 within 10 km.",cta:"Shop now"},
+    {img:["Fertiliser, Chisamba","#4B6B1C","#1A2608"],kicker:"Season opens",title:"Agri Hub · input prices",body:"Compounded D and urea from six suppliers, delivered to the farm gate.",price:"From K720 a bag",cta:"Compare prices"}]},
   {t:"grid",title:"Stores",cols:3,items:[
     ["store","Shoprite","Groceries","#C0392B"],["store","Pick n Pay","Groceries","#1F5B3A"],["store","Choppies","Groceries","#1B4F8A"],
     ["pill","Pharmacies","Health","#1B6076"],["home","Furniture","Home","#7A4A14"],["tap","Electronics","Tech","#3A3A5C"]]},
@@ -692,7 +722,10 @@ const CATS=[
  promos:[["Directory","#7A4A1E","book",1],["Tenders","#1B4F8A","doc",1],["Insure","#2E5F8A","shield",1],["Health","#1F6F5C","heart",0],["Build","#B3701F","hammer",0],["Legal","#3A3A5C","scale",0],["Schools","#2E6B4F","book",0],["Weddings","#6E2E4E","calendar",0],["Cleaners","#4B6B1C","broom",0],["Security","#253A66","shield",0],["Freelancers","#8A4A20","users",0]],
  blocks:[
   {t:"search",placeholder:"Search 8,400 Zambian businesses"},
-  {t:"hero",img:["Workshop, Kafue Road","#9A6327","#2E1B08"],kicker:"Featured business",title:"Lusaka Auto Clinic",body:"Copper Pages verified · 4.8 from 212 reviews · Kafue Road. Book a service slot and pay in the app.",cta:"Book a service"},
+  {t:"featured",items:[
+    {img:["Workshop, Kafue Road","#9A6327","#2E1B08"],kicker:"Featured business",title:"Lusaka Auto Clinic",body:"Copper Pages verified · 4.8 from 212 reviews · Kafue Road. Book a service slot and pay in the app.",cta:"Book a service"},
+    {img:["Clinic, Woodlands","#1F6F5C","#0A2820"],kicker:"Recommended",title:"Medland Hospital",body:"Same-day appointments, most medical aid accepted. Pay the consultation before you arrive.",cta:"Book an appointment"},
+    {img:["Site, Chalala","#B3701F","#38210A"],kicker:"Trending",title:"Zambezi Builders",body:"Materials and contracting, 40 completed projects listed with photographs.",cta:"Request a quote"}]},
   {t:"tenders",title:"Tenders",items:[
     ["Supply of office furniture","Ministry of Health · closes in 6 days","K480,000"],
     ["Borehole drilling, 12 sites","Lusaka Water · closes in 11 days","K1.2m"],
@@ -715,8 +748,14 @@ const CATS=[
 
 
 /* ---- Homes: buy / rent / sell, location-first ---- */
-const locField=(label,ph,id)=>`<div class="field focusable"><span class="pin">${ic("pin",16)}</span>
+const locField=(label,ph,id,locate=true)=>`<div class="field focusable">
+  ${locate
+    ? `<button class="pin locate" data-for="${id}" aria-label="Use my location" title="Use my location">${ic("locate",16)}</button>`
+    : `<span class="pin">${ic("pin",16)}</span>`}
   <span class="txt"><span class="lab">${label}</span><input id="${id}" placeholder="${ph}" autocomplete="off"></span></div>`;
+
+const dateField=(label,value,id,extra="")=>`<div class="field focusable"${extra}><span class="pin">${ic("calendar",16)}</span>
+  <span class="txt"><span class="lab">${label}</span><input id="${id}" value="${value}" autocomplete="off"></span></div>`;
 
 const propRows=items=>`<div class="list">${items.map(i=>`<button class="row">
   <span class="thumb" style="background:${i[3]};border-radius:10px">${ic("home",19)}</span>
@@ -735,7 +774,6 @@ const rHomes=()=>`
  </div>
  ${locField("Where","Add your location","homes-loc")}
  <div class="chiprow" id="homes-loc-chips">
-   <button class="chip">${ic("pin",13)}Use my location</button>
    <button class="chip">Lusaka</button><button class="chip">Kitwe</button><button class="chip">Ndola</button><button class="chip">Livingstone</button>
  </div>
 
@@ -797,12 +835,20 @@ const rHomes=()=>`
 
 /* ---- Travel: journey-first, no hero until a route exists ---- */
 const rJourney=()=>`
+ <div class="segment" id="trip-type">
+   <button aria-pressed="true" data-trip="one">One way</button>
+   <button aria-pressed="false" data-trip="return">Return</button>
+ </div>
  <div class="journey">
    ${locField("From","Add your location","trip-from")}
-   ${locField("To","Where are you going?","trip-to")}
+   ${locField("To","Where are you going?","trip-to",false)}
    <button class="swap" id="trip-swap" aria-label="Swap start and destination">${ic("swap",16)}</button>
  </div>
- <div class="chiprow"><button class="chip">${ic("pin",13)}Use my location</button><button class="chip" aria-pressed="true">Today</button><button class="chip">1 traveller</button></div>
+ <div class="fieldpair">
+   ${dateField("Depart","Today, 18 Sep","trip-depart")}
+   ${dateField("Return","Sun, 20 Sep","trip-return",' id="trip-return-field" hidden')}
+ </div>
+ <div class="chiprow"><button class="chip" aria-pressed="true">1 traveller</button><button class="chip">Add a stop</button></div>
  <div style="padding:2px 14px 12px"><button class="cta" id="trip-go">Find journeys${ic("arrow",18)}</button></div>
 
  <div class="view" id="trip-empty">
@@ -838,12 +884,18 @@ const rJourney=()=>`
    <div style="padding:0 14px"><button class="cta ghost">Request this route${ic("arrow",18)}</button></div>
  </div>`;
 
-const rHero=b=>`<div class="hero">${ph(b.img[0],b.img[1],b.img[2])}<div class="body">
+const heroCard=b=>`<div class="hero">${ph(b.img[0],b.img[1],b.img[2])}<div class="body">
   <div class="kicker">${b.kicker}</div><h5>${b.title}</h5>
   ${b.place?`<p style="margin-bottom:6px">${b.place}</p>`:""}
   ${b.price?`<div class="price" style="margin-bottom:8px">${b.price}</div>`:""}
   <p>${b.body}</p>
   <button class="cta">${b.cta}${ic("arrow",18)}</button></div></div>`;
+const rHero=b=>`<div style="margin:0 14px 12px">${heroCard(b)}</div>`;
+
+/* the featured slot slides — the page no longer does */
+const rFeatured=b=>`
+ <div class="fcar" aria-label="Featured">${b.items.map(i=>`<div class="fslide">${heroCard(i)}</div>`).join("")}</div>
+ <div class="fdots" aria-hidden="true">${b.items.map((_,n)=>`<i class="${n===0?"on":""}"></i>`).join("")}</div>`;
 
 const rRail=b=>`<div class="s-title"><h4>${b.title}</h4><a href="#">${b.link}</a></div>
  <div class="carousel">${b.items.map(i=>b.variant==="poster"
@@ -873,7 +925,7 @@ const rSeg=b=>`<div class="segment">${b.options.map((o,n)=>
 
 const rSearch=b=>`<div class="searchbar">${ic("search",17)}<input id="svc-search" type="search" placeholder="${b.placeholder}" aria-label="${b.placeholder}"></div>`;
 
-const R={hero:rHero,rail:rRail,grid:rGrid,zcard:rZ,list:rList,segment:rSeg,search:rSearch,tenders:rTenders,homes:rHomes,journey:rJourney};
+const R={hero:rHero,featured:rFeatured,rail:rRail,grid:rGrid,zcard:rZ,list:rList,segment:rSeg,search:rSearch,tenders:rTenders,homes:rHomes,journey:rJourney};
 
 const pager=document.getElementById("pager");
 pager.innerHTML=CATS.map(c=>`<section class="screen" id="scr-${c.id}" aria-label="${c.label}">
@@ -895,22 +947,54 @@ const screens=[...pager.querySelectorAll(".screen")];
 const navs=[...document.querySelectorAll(".navbtn")];
 const tabs=[...document.querySelectorAll(".tab")];
 let active=0;
-function setActive(i){
+screens[0].classList.add("on");
+
+function go(i){
+  if(i===active || !screens[i]) return;
   active=i;
+  screens.forEach((s,n)=>s.classList.toggle("on", n===i));
   navs.forEach((b,n)=>n===i?b.setAttribute("aria-current","page"):b.removeAttribute("aria-current"));
   tabs.forEach((b,n)=>b.setAttribute("aria-selected",String(n===i)));
 }
-function go(i){ pager.scrollTo({left:pager.clientWidth*i,behavior:"smooth"}); setActive(i); }
 navs.forEach(b=>b.addEventListener("click",()=>go(+b.dataset.i)));
 tabs.forEach(b=>b.addEventListener("click",()=>go(+b.dataset.i)));
-let tick;
-pager.addEventListener("scroll",()=>{
-  clearTimeout(tick);
-  tick=setTimeout(()=>{
-    const i=Math.round(pager.scrollLeft/pager.clientWidth);
-    if(i!==active&&screens[i]) setActive(i);
-  },90);
+
+/* featured carousels drive their own dots */
+document.querySelectorAll(".fcar").forEach(car=>{
+  const dots=car.nextElementSibling?.querySelectorAll("i");
+  if(!dots?.length) return;
+  let t;
+  car.addEventListener("scroll",()=>{
+    clearTimeout(t);
+    t=setTimeout(()=>{
+      const slide=car.querySelector(".fslide");
+      if(!slide) return;
+      const step=slide.getBoundingClientRect().width + 10;
+      const i=Math.min(dots.length-1, Math.round(car.scrollLeft/step));
+      dots.forEach((d,n)=>d.classList.toggle("on", n===i));
+    },70);
+  },{passive:true});
 });
+
+/* the locate control inside a location field */
+document.querySelectorAll(".locate").forEach(btn=>btn.addEventListener("click",()=>{
+  const field=document.getElementById(btn.dataset.for);
+  if(!field) return;
+  field.value="Lusaka";
+  field.dispatchEvent(new Event("input",{bubbles:true}));
+}));
+
+/* one way / return */
+const tripType=document.getElementById("trip-type");
+if(tripType){
+  tripType.addEventListener("click",e=>{
+    const b=e.target.closest("button"); if(!b) return;
+    [...tripType.children].forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+    const rf=document.getElementById("trip-return-field");
+    if(rf) rf.hidden = b.dataset.trip !== "return";
+  });
+}
+
 document.querySelectorAll(".segment").forEach(seg=>{
   seg.addEventListener("click",e=>{
     const b=e.target.closest("button"); if(!b) return;
@@ -1084,7 +1168,8 @@ document.getElementById("tok-body").innerHTML=TOKENS.map(t=>
 const ANATOMY=CATS.map(c=>({name:c.label,tint:c.tint[0],role:c.blurb,rows:[
  ["Promo rail","56px circular shortcuts, horizontal scroll, campaign-driven"],
  ...c.blocks.map(b=>({
-   hero:["Featured hero","16:9 image, kicker, title, body, gold CTA — one item, no carousel"],
+   hero:["Featured hero","16:9 image, kicker, title, body, gold CTA"],
+   featured:["Featured carousel","Three cards at 86% width so the next peeks, snap scrolling, dots for position"],
    rail:["Second tier: "+(b.variant==="poster"?"2:3 poster rail":"3:2 card rail"),b.variant==="poster"?"126px wide posters — cinema and event artwork ships in this ratio":"190px cards with a caption line for price or status"],
    grid:["Second tier: "+b.cols+"-up tile grid","Icon-led tiles for things recognised by name, not photo"],
    zcard:["Zanaco card","Copper block, up to three Zanaco actions, placed after the content it serves"],
@@ -1106,7 +1191,9 @@ const COMPONENTS=[
 ["Tab Bar","Fixed","5 slots, red fill, radius 26, floats 10px above the safe area. Variants: active index 1–5."],
 ["App Bar","Fixed","Back · centred title · search. 32px touch targets, grid 32/1fr/32."],
 ["Promo Chip","Rail item","56px disc + 2-line caption at 10px. Variants: icon, image, brand mark."],
-["Featured Hero","Card","16:9 media, kicker, title, optional price, body, CTA. Variants: with price, without."],
+["Featured Carousel","Section","Cards at 86% width with a visible peek, snap scrolling, dots. 2–5 slides."],
+["Featured Card","Card","16:9 media, kicker, title, optional price, body, CTA. Variants: with price, without."],
+["Location Field","Control","Leading control is the locate action, label above, value below. Variants: locate, plain pin, date."],
 ["Gold CTA","Button","Full width, height 52, radius 14, flat gold fill, label left, arrow right. Variants: filled, ghost (copper stroke), small, disabled."],
 ["Poster Card","Rail item","126 × 189 image, title, meta. Lifestyle only."],
 ["Wide Card","Rail item","190px, 3:2 media, caption block. Shops, Homes, Travel."],
